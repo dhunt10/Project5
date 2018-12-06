@@ -1,5 +1,3 @@
-
-
 // Project 5
 
 #include <iostream>
@@ -20,11 +18,10 @@ public:
     void print(int,int,int,int);
     bool isLegal(int i, int j);
     
-    void findPathRecursive(graph &g, node &n);
-    void findPathNonRecursive(graph &g, node &n);
     void setMap(int i, int j, int n);
     int getMap(int i, int j) const;
     void mapMazeToGraph(graph &g);
+    void findPathNonRecursive(graph &g);
     
 private:
     int rows; // number of rows in the maze
@@ -114,15 +111,19 @@ void maze::mapMazeToGraph(graph &g)
 // Create a graph g that represents the legal moves in the maze m.
 {
     node n;
-    edge e;
+    int x;
+    int y;
     int count =0;
-    for (int i = 1; i<= rows; i++)
+    
+    for (int i = 0; i< rows; i++)
     {
-        for (int j = 1; j<=cols; j++)
+        
+        for (int j = 0; j<cols; j++)
         {
             
             if (value[i][j]==true)
             {
+                
                 n.setId(count);
                 g.addNode(n);
                 setMap( i, j, count);
@@ -136,108 +137,130 @@ void maze::mapMazeToGraph(graph &g)
             count++;
         }
         
-        int x;
-        int y;
-        for (int i = 1; i<= rows; i++)
+    }
+    count = 0;
+    
+    for (int i = 0; i<rows; i++)
+    {
+        for (int j = 0; j<cols; j++)
         {
-            for (int j = 1; j<=cols; j++)
+            
+            if (map[i][j]!=-1)
             {
-                if (map[i][j]!=-1)
+                
+                
+                for (int k = 0; k < g.numNodes(); k++)
                 {
-                    if (map[i+1][j] != -1 && i+1 < rows)
+                    if (count == g.getNode(k).getId())
+                        x = k;
+                }
+                
+                
+                if (i!=rows-1 && map[i+1][j] != -1)
+                {
+                    for (int k = 0; k < g.numNodes(); k++)
                     {
-                        e.setEdge(i,i+1,0);
+                        if (count == g.getNode(k).getId())
+                            y = k;
                         
                     }
-                    if (map[i-1][j] != -1 && i-1>= 0)
+                    g.addEdge(x,y);
+                }
+                if (i!=0&&map[i-1][j] != -1 )
+                {
+                    for (int k = 0; k < g.numNodes(); k++)
                     {
                         
-                        
-                    }
-                    if (map[i][j+1] != -1&& j+1 < cols)
-                    {
-                        
-                        
-                    }
-                    if (map[i][j-1] != -1 && j-1 >=0)
-                    {
-                        
-                        
+                        if (count == g.getNode(k).getId())
+                            y = k;
                     }
                     
                 }
                 
-                
-                
-                
+                if (j<=cols-1 && map[i][j+1] != -1)
+                {
+                    for (int k = 0; k < g.numNodes(); k++)
+                    {
+                        if (count == g.getNode(k).getId())
+                            y = k;
+                    }
+                    
+                    
+                }
+                if (j!=0 && map[i][j-1] != -1)
+                {
+                    
+                    for (int k = 0; k < g.numNodes(); k++)
+                    {
+                        if (count == g.getNode(k).getId())
+                            y = k;
+                    }
+                    
+                }
                 
             }
             
+            
+            count++;
         }
-        
         
     }
     
     
-}
-
-
-void maze::findPathRecursive(graph &g, node &n)
-{
-   // int curr, up, down, right, left;
-    
-   /* curr= ; //we need to set these here
-    up= ;
-    down= ;
-    right= ;
-    left= ;*/
-    
-    //then down here we check to see if they are valid
-    
-    n.visit();
-    
-    //for each neighbor of n
-    //if the neighbor is unvisited
-    //if v==row && column
-    //dfs(g, n);
     
     
 }
 
-void maze::findPathNonRecursive(graph &g, node &n)
+void maze::findPathNonRecursive(graph &g)
 {
+    queue <int> holding;
+    g.clearVisit();
+    holding.push(0);
+    g.visit(0);
     
-    queue <node> holding;
-    
-    holding.push (n);
-    n.isVisited();
     
     while(!holding.empty())
     {
-        for (int i = 0; i <g.numNodes(); i++)
+        
+        for (int i =0; i < g.numNodes(); i++)
         {
             
+            if (g.isEdge(holding.front(),i) || g.isEdge(i, holding.front()))
+            {
+                
+                if (g.isVisited(i)==false)
+                {
+                    
+                    g.visit(i);
+                    holding.push(i);
+                    cout << "Node visited : " << g.getNode(i).getId() << endl;
+                    if (i==g.numNodes())
+                    {
+                        cout << "There exists a path from the start to finish" << endl;
+                        break;
+                    }
+                }
+                
+                else
+                    continue;
+            }
+            else
+                continue;
         }
+        holding.pop();
     }
-
-    //push start vertex into queue
-    //mark start as visited
-    //while(bfs_queue[i]!=NULL)
-    //set v to the front of queue
-    //        for each unvisited neighbor of queue, w
-    //            mark w as visited
-    //push w into queue
-    //pop v out of queue
+    
 }
+
+
 
 int main()
 {
-    
     char x;
     ifstream fin;
     
     // Read the maze from the file.
-    string fileName = "maze.txt";
+    string fileName = "maze1.txt";
     
     fin.open(fileName.c_str());
     if (!fin)
@@ -253,6 +276,8 @@ int main()
         while (fin && fin.peek() != 'Z')
         {
             maze m(fin);
+            m.mapMazeToGraph(g);
+            m.findPathNonRecursive(g);
         }
         
         
@@ -266,4 +291,3 @@ int main()
         cout << ex.what() << endl; exit(1);
     }
 }
-
