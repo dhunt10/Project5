@@ -176,7 +176,7 @@ for (int i = 0; i <= rows-1; i++) //nested for loop that is responsible to conne
 		   	
 		   	for (int k = 0; k < g.numNodes(); k++) //does this for ever node value
 				{
-					if (count == g.getNode(k).getId()) //if count equals the node number, x equals iterations 
+					if (value[i][j] == g.getNode(k).getId()) //if count equals the node number, x equals iterations 
 						x = k; 
 				}
 		   	
