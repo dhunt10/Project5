@@ -144,12 +144,14 @@ void maze::mapMazeToGraph(graph &g)
 	int y;
 	edge e;
 	int count = 0; // count to see how many nodes have been visited
-	for (int i = 0; i <= rows-1; i++) //nested for loop to go through maze and create nodes
+	for (int i = 0; i <= rows-1; i++)
+	//nested for loop to go through maze and create nodes
    {
       for (int j = 0; j <= cols-1; j++)
       {
 			
-			if (value[i][j]==true) //if the value is a 'O'
+			if (value[i][j]==true)
+			 //if the value is a 'O'
 			{
 				n.setId(count); //set an id to that coordinate
 				g.addNode(n); //create the node
@@ -158,7 +160,8 @@ void maze::mapMazeToGraph(graph &g)
 			}
 			else 
 			{
-				setMap(i, j, -1); //node is not value so we send -1 instead of count
+				setMap(i, j, -1); 
+				//node is not value so we send -1 instead of count
 				
 			}
 			count++;
@@ -167,67 +170,91 @@ void maze::mapMazeToGraph(graph &g)
 	}
 		count = 0;
 	
-for (int i = 0; i <= rows-1; i++) //nested for loop that is responsible to connecting nodes with edges
+for (int i = 0; i <= rows-1; i++) 
+//nested for loop that is responsible to connecting nodes with edges
    {
       for (int j = 0; j <= cols-1; j++)
       {
-		  if (value[i][j]==true) //again makes sure it only checks nodes in value matrix
+		  if (value[i][j]==true) 
+		  //again makes sure it only checks nodes in value matrix
 		   {
 		   	
-		   	for (int k = 0; k < g.numNodes(); k++) //does this for ever node value
+		   	for (int k = 0; k < g.numNodes(); k++) 
+			   //does this for ever node value
 				{
-					if (count== g.getNode(k).getId()) //if count equals the node number, x equals iterations 
+					if (count== g.getNode(k).getId()) 
+					//if count equals the node number, x equals iterations 
 						x = k; 
 				}
 		   	
 		   	
-		   	 if (i+1 < rows) //if the iterations are in the matrix, checking to the right
+		   	 if (i+1 < rows) 
+				//if the iterations are in the matrix, checking to the right
 		   	{
-		   	if (map[i+1][j] != -1 ) //checks if point is valid
+		   	if (map[i+1][j] != -1 ) 
+			   //checks if point is valid
 		   	 	{
-		   	 			for (int k = 0; k < g.numNodes(); k++) //goes through every node
+		   	 			for (int k = 0; k < g.numNodes(); k++) 
+							//goes through every node
 				{
-					if (value[i+1][j] == g.getNode(k).getId()) //if the count is equal to the node id
+					if (value[i+1][j] == g.getNode(k).getId()) 
+					//if the count is equal to the node id
 						y = k;
 					}
-		   		g.addEdge(x,y); //we add an edge from source to destination
+		   		g.addEdge(x,y); 
+				   //we add an edge from source to destination
 					}
 			}
 			
-			if (i-1 > -1) //if the iterations are in the matrix, checking to the left
+			if (i-1 > -1) 
+			//if the iterations are in the matrix, checking to the left
 		   	{
-		   	if (map[i-1][j] != -1 ) //checks if point is valid
+		   	if (map[i-1][j] != -1 ) 
+			   //checks if point is valid
 		   	 	{
-		   	 			for (int k = 0; k < g.numNodes(); k++) //goes through every node
+		   	 			for (int k = 0; k < g.numNodes(); k++) 
+							//goes through every node
 				{
-					if (value[i-1][j] == g.getNode(k).getId()) //if the count is equal to the node ID
+					if (value[i-1][j] == g.getNode(k).getId())
+					 //if the count is equal to the node ID
 						y = k;
 					}
-		   		g.addEdge(x,y); //we add an edge from source to destination
+		   		g.addEdge(x,y); 
+				   //we add an edge from source to destination
 					}
 			}
-			if (j+1 < cols)	//if the iterations are in the matrix, checking below
+			if (j+1 < cols)	
+			//if the iterations are in the matrix, checking below
 		   	{
-		   	if (map[i][j+1] != -1 ) //checks if point is valid
+		   	if (map[i][j+1] != -1 ) 
+			   //checks if point is valid
 		   	 	{
-		   	 			for (int k = 0; k < g.numNodes(); k++) //goes through every node
+		   	 			for (int k = 0; k < g.numNodes(); k++) 
+							//goes through every node
 				{
-					if (value[i][j+1] == g.getNode(k).getId()) //if the count is equal to the node ID
+					if (value[i][j+1] == g.getNode(k).getId())
+					 //if the count is equal to the node ID
 						y = k;
 					}
-		   		g.addEdge(x,y); //we add an edge from source to destination
+		   		g.addEdge(x,y); 
+				   //we add an edge from source to destination
 					}
 			}
-			if (j-1>-1)	//if the iterations are in the matrix, checking above
+			if (j-1>-1)	
+			//if the iterations are in the matrix, checking above
 		   		{
-		   	if (map[i][j-1] != -1 ) //checks if point is valid
+		   	if (map[i][j-1] != -1 ) 
+			   //checks if point is valid
 		   	 		{
-		   	 			for (int k = 0; k < g.numNodes(); k++) //goes through every node
+		   	 			for (int k = 0; k < g.numNodes(); k++) 
+							//goes through every node
 						{
-						if (value[i][j-1] == g.getNode(k).getId()) //if the count is equal to the node ID
+						if (value[i][j-1] == g.getNode(k).getId()) 
+						//if the count is equal to the node ID
 						y = k;
 						}
-		   		g.addEdge(x,y); //we add an edge from source to destination
+		   		g.addEdge(x,y); 
+				   //we add an edge from source to destination
 					}
 				}
 					
@@ -242,7 +269,8 @@ for (int i = 0; i <= rows-1; i++) //nested for loop that is responsible to conne
 
 }
 
-void maze::nonrecursivefind(graph &g, int &n)// BFS non recursive
+void maze::nonrecursivefind(graph &g, int &n)
+// BFS non recursive
 {
 	
 	
@@ -251,7 +279,8 @@ void maze::nonrecursivefind(graph &g, int &n)// BFS non recursive
 	queue <int> pred; //queue that makes BFS possible
 	vector <int> parents; //holds the parents
 	vector <int> visits; //remebered the visits
-	pred.push(0); //start by pushing 0 into queue and vectors
+	pred.push(0); 
+	//start by pushing 0 into queue and vectors
 	g.visit(0);
 	visits.push_back(0);
 	parents.resize(g.numNodes());
@@ -263,17 +292,20 @@ void maze::nonrecursivefind(graph &g, int &n)// BFS non recursive
 		for (int i = 0; i < g.numNodes(); i++) //we go do as many iterations as there are nodes
 		{
 			
-			if (g.isEdge(pred.front(), i)|| g.isEdge(i,pred.front())) //check to see if there is an edge between the front of the stack and IT IS CHECKING 0
+			if (g.isEdge(pred.front(), i)|| g.isEdge(i,pred.front())) 
+			//check to see if there is an edge between the front of the stack and IT IS CHECKING 0
 			{
 			//	cout << "before final if" << endl;
 			//	cout << g.isVisited(i) << endl;
-				if (g.isVisited(i)==false) //make sure it has not been visited
+				if (g.isVisited(i)==false) 
+				//make sure it has not been visited
 				{
 				//	cout << "in if" << endl;
 					g.visit(i);// Mark as visited
 					pred.push(i);// push into queue
 					visits.push_back(i); // keep track of visits
 					parents[i]=pred.front(); // BFS Tree
+					//cout << g.getNode(i).getId() << endl;
 					
 				}
 				
@@ -283,7 +315,8 @@ void maze::nonrecursivefind(graph &g, int &n)// BFS non recursive
 				
 			}
 		}
-		pred.pop();// popping out previous visisted node
+		pred.pop();
+		// popping out previous visisted node
 	}
 		
 	// getting the path
@@ -291,11 +324,13 @@ void maze::nonrecursivefind(graph &g, int &n)// BFS non recursive
 	int curr;
 	vector <int> check;
 	 // check if it has a path
-	for (int i = 0; i <visits.size(); i++) //number of iterations is equal to number of visited nodes
+	for (int i = 0; i <visits.size(); i++) 
+	//number of iterations is equal to number of visited nodes
 	{
 		if (visits[i]==g.numNodes()-1) //for all nodes
 		{
-			path==true; //path is true
+			path==true; 
+			//path is good since it got to the last node
 			curr=i; 
 			
 		}
@@ -311,18 +346,15 @@ void maze::nonrecursivefind(graph &g, int &n)// BFS non recursive
 			
 		check.push_back(0); //push 0 into check
 			
-			cout << check.size() << endl;
-	for (int i = check.size()-1; i>0; i-- ) //starting at the end, it goes through check
+	for (int i = check.size()-1; i>0; i-- )
+	 //starting at the end, it goes through check
 			{
-			cout << check.size() << endl;
-			n1 = g.getNode(check[i]).getId() % cols; //neighbors 1,2,3 and 4 finding the neighbors for R, L, U & D
-			cout << "n1 : " << n1 << endl;
+			
+			n1 = g.getNode(check[i]).getId() % cols; 
+			//neighbors 1,2,3 and 4 finding the neighbors for R, L, U & D
 			n2 = (g.getNode(check[i]).getId() - n1) / cols; 
-			cout << "n2 : " << n2 << endl;
 			n3 = g.getNode(check[i - 1]).getId() % Cols(); 
-			cout << "n3 : " << n3 << endl;
 			n4 = (g.getNode(check[i - 1]).getId() - n3) / cols;  
-			cout << "n4 : " << n4 << endl;
 			if (n1!=n3) // checks right and lefts
 			{
 				if (n1<n3) //to the right
@@ -365,7 +397,8 @@ void maze::nonrecursivefind(graph &g, int &n)// BFS non recursive
 		
 
 
-void maze::recursivefind(graph &g, int n, int i) // DFS recursive, n is the new and i is the old
+void maze::recursivefind(graph &g, int n, int i) 
+// DFS recursive, n is the new and i is the old
 {
 	
 	int n1,n2,n3,n4; // neighbours
@@ -375,11 +408,9 @@ void maze::recursivefind(graph &g, int n, int i) // DFS recursive, n is the new 
 	n3 = g.getNode(n).getId() % cols;
 	n4 = (g.getNode(n).getId() - n3) / cols;
 	
-	cout << n1 <<n2 <<n3<< n4 << endl;
-	
 		if (n1!=n3&& path==false) //checks right and left neighbors
 			{
-				if (n1<n3) //to the right
+				if (n1<n3 && n1 && n3) //to the right
 				{
 					//Moving right
 					cout << "Right" << endl;
@@ -412,20 +443,26 @@ void maze::recursivefind(graph &g, int n, int i) // DFS recursive, n is the new 
 			}
 	
 		}
-			if(n==g.numNodes()-1) //the correct number of nodes
+			if(n==g.numNodes()-1) 
+			//the correct number of nodes
 			{
 				path==true;
 			}
 			else 
 			{
-				for (int j = 0; j < g.numNodes(); j++)// scan all the nodes 
+				for (int j = 0; j < g.numNodes(); j++)
+				// scan all the nodes 
 			{
-				if (g.isEdge(n, j) || g.isEdge(j, n))  //if there is an edge in either direction
+				if (g.isEdge(n, j) || g.isEdge(j, n)) 
+				 //if there is an edge in either direction
+				 {
+				 if (g.getNode(n).isVisited())
 				{
 					cout << j << endl;
 					visited.push_back(j); //push j into visited
 					g.visit(j); //mark it as visited
-					recursivefind(g, j, n); //recursive call, sends old and new nodes		
+					recursivefind(g, j, n); //recursive call, sends old and new nodes	
+				}
 		}
 	}
 }
