@@ -9,10 +9,26 @@ int main()
 {
    char x;
    ifstream fin;
+   int answer; 
+   string file_name;
    
    // Read the maze from the file.
-   string fileName = "maze1.txt";
+   
+   cout << "what file would you like? 1,2, or 3?" << endl;
+   cin>>answer;
+   
+   if (answer==1)
+		file_name="maze1.txt";
+	else if (answer==2)
+		file_name="maze2.txt";
+	else
+		file_name="maze3.txt";
+   
+   string fileName = file_name;
 
+	cout << "Non recursive will go first" << endl;
+	system("PAUSE");
+	
    fin.open(fileName.c_str()); //OPEN 
    if (!fin)
    {
@@ -32,7 +48,8 @@ int main()
       {	
          
          maze m(fin); //maze
-         m.mapMazeToGraph(g); //map it
+         
+		 m.mapMazeToGraph(g); //map it
          cout << "BFS Non Recursive " << endl; 
          m.nonrecursivefind(g,n); //calling non recursive version
          if (m.path== true) //if the path exists
@@ -73,7 +90,10 @@ int main()
         
 		
 		 m.reset(g); //resets the path
-         cout << " DFS Non Recursive" << endl;
+		 cout << "to try Recursion..." << endl;
+		 system("PAUSE");
+		 m.nonrecursivefind(g,n);
+         cout << " DFS Recursive" << endl;
          m.recursivefind(g,n,n); //runs the recursive function
       	if (m.path== true)
          {
