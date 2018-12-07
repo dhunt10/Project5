@@ -24,7 +24,7 @@ class maze
       int getMap(int i, int j) const;
       void mapMazeToGraph(graph &g);
       void nonrecursivefind(graph &g, int &n);
-	  void recursivefind(graph &g, int &n, int &i);
+	  void recursivefind(graph &g, int n, int i);
 	  void reset(graph &g);
 	  vector <int> visited; // keep track of visisted
 	  vector <int> direction; // Keep track of path.
@@ -176,7 +176,7 @@ for (int i = 0; i <= rows-1; i++) //nested for loop that is responsible to conne
 		   	
 		   	for (int k = 0; k < g.numNodes(); k++) //does this for ever node value
 				{
-					if (value[i][j] == g.getNode(k).getId()) //if count equals the node number, x equals iterations 
+					if (count== g.getNode(k).getId()) //if count equals the node number, x equals iterations 
 						x = k; 
 				}
 		   	
@@ -239,13 +239,13 @@ for (int i = 0; i <= rows-1; i++) //nested for loop that is responsible to conne
 
 	
 	}
-g.printNodes();
+
 }
 
 void maze::nonrecursivefind(graph &g, int &n)// BFS non recursive
 {
 	
-	cout << "int" << endl;
+	
 	// initialization
 	g.clearVisit(); //clear all
 	queue <int> pred; //queue that makes BFS possible
@@ -257,7 +257,6 @@ void maze::nonrecursivefind(graph &g, int &n)// BFS non recursive
 	parents.resize(g.numNodes());
 	// building the path
 	
-	cout << "before while loop" << endl;
 	while(pred.empty()==false) //while the queue is not empty
 	{
 	
@@ -312,29 +311,31 @@ void maze::nonrecursivefind(graph &g, int &n)// BFS non recursive
 			
 		check.push_back(0); //push 0 into check
 			
+			cout << check.size() << endl;
 	for (int i = check.size()-1; i>0; i-- ) //starting at the end, it goes through check
 			{
-		
+			cout << check.size() << endl;
 			n1 = g.getNode(check[i]).getId() % cols; //neighbors 1,2,3 and 4 finding the neighbors for R, L, U & D
-			
+			cout << "n1 : " << n1 << endl;
 			n2 = (g.getNode(check[i]).getId() - n1) / cols; 
-			
+			cout << "n2 : " << n2 << endl;
 			n3 = g.getNode(check[i - 1]).getId() % Cols(); 
-			
+			cout << "n3 : " << n3 << endl;
 			n4 = (g.getNode(check[i - 1]).getId() - n3) / cols;  
-			
+			cout << "n4 : " << n4 << endl;
 			if (n1!=n3) // checks right and lefts
 			{
 				if (n1<n3) //to the right
 				{
 					//Moving right
-					cout << " Go Right" << endl;
+					cout << " Right" << endl;
 					direction.push_back(1); //saves direction
 				}
 				else //to the left
 				{
+
 					//Moving left
-					cout << "Go Left" << endl;
+					cout << "Left" << endl;
 					direction.push_back(2); //saves direction
 					
 				}
@@ -346,13 +347,13 @@ void maze::nonrecursivefind(graph &g, int &n)// BFS non recursive
 				{
 					//moving down
 					
-					cout << "Go Down"<<endl;
+					cout << "Down"<<endl;
 					direction.push_back(3); //saves direction
 				}
 				else //above
 				{
 					//moving up
-					cout << "Go Up"<< endl;
+					cout << "Up"<< endl;
 					direction.push_back(4); //saves direction
 					
 				}
@@ -364,7 +365,7 @@ void maze::nonrecursivefind(graph &g, int &n)// BFS non recursive
 		
 
 
-void maze::recursivefind(graph &g, int &n, int &i) // DFS recursive
+void maze::recursivefind(graph &g, int n, int i) // DFS recursive, n is the new and i is the old
 {
 	
 	int n1,n2,n3,n4; // neighbours
@@ -374,18 +375,20 @@ void maze::recursivefind(graph &g, int &n, int &i) // DFS recursive
 	n3 = g.getNode(n).getId() % cols;
 	n4 = (g.getNode(n).getId() - n3) / cols;
 	
+	cout << n1 <<n2 <<n3<< n4 << endl;
+	
 		if (n1!=n3&& path==false) //checks right and left neighbors
 			{
 				if (n1<n3) //to the right
 				{
 					//Moving right
-					cout << " Go Right" << endl;
+					cout << "Right" << endl;
 					direction.push_back(1);
 				}
 				else  //to the left
 				{
 					//Moving left
-					cout << "Go Left" << endl;
+					cout << "Left" << endl;
 					direction.push_back(2);
 					
 				}
@@ -397,13 +400,13 @@ void maze::recursivefind(graph &g, int &n, int &i) // DFS recursive
 				{
 					//moving down
 					
-					cout << "Go Down"<<endl;
+					cout << "Down"<<endl;
 					direction.push_back(3);
 				}
 				else  //above
 				{
 					//moving up
-					cout << "Go Up"<< endl;
+					cout << "Up"<< endl;
 					direction.push_back(4);
 					
 			}
@@ -419,51 +422,13 @@ void maze::recursivefind(graph &g, int &n, int &i) // DFS recursive
 			{
 				if (g.isEdge(n, j) || g.isEdge(j, n))  //if there is an edge in either direction
 				{
-					visited.push_back(j); //psuh j into visited
+					cout << j << endl;
+					visited.push_back(j); //push j into visited
 					g.visit(j); //mark it as visited
-					recursivefind(g,n,j); //recursive call
-					n1 = g.getNode(j).getId() % cols; //re-assign neighbors
-					n2 = (g.getNode(j).getId() -n1) / cols;
-					n3 = g.getNode(j).getId() % cols;
-					n4 = (g.getNode(j).getId() - n3) / cols;
-					if (n1!=n3&& path==false) //checking right and left again
-			{
-				if (n1<n3) //to the right
-				{
-					//Moving right
-					cout << " Go Right" << endl;
-					direction.push_back(1); //saves the direction
-				}
-				else  //to the left
-				{
-					//Moving left
-					cout << "Go Left" << endl;
-					direction.push_back(2); //saves the direction
-					
-				}
-			}
-			else if(n2!=n4&&path==false) //checks above and below
-			
-			{
-				if (n2<n4) //checks below
-				{
-					//moving down
-					
-					cout << "Go Down"<<endl;
-					direction.push_back(3); //saves the direction
-				}
-				else //checks above
-				{
-					//moving up
-					cout << "Go Up"<< endl;
-					direction.push_back(4); //saves the direction
-					
-					}		
-	
-				}
-			}			
+					recursivefind(g, j, n); //recursive call, sends old and new nodes		
 		}
 	}
-} 
+}
+}
 
 #endif
